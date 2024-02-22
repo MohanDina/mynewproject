@@ -14,6 +14,6 @@ spec:
     spec:
       containers:
       - name: myapp-container
-        image: mohadina/app:1
+        image: mohadina/app:2
         ports:
         - containerPort: 80
