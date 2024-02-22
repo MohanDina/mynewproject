@@ -17,16 +17,3 @@ spec:
         image: mohadina/app:1
         ports:
         - containerPort: 80
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: myapp-service
-spec:
-  selector:
-    app: myapp
-  ports:
-    - protocol: TCP
-      port: 80
-      targetPort: 80
-  type: Nodeport
