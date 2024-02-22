@@ -15,7 +15,7 @@ FROM nginx:alpine
 RUN rm -rf /usr/share/nginx/html/*
 
 # Copy built Angular app from the builder stage to Nginx directory
-COPY --from=builder /usr/src/app/dist /usr/share/nginx/html
+COPY --from=builder /usr/src/app/dist/my-angular-app/browser /usr/share/nginx/html
 
 EXPOSE 80
 
