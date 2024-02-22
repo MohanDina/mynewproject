@@ -9,7 +9,7 @@ RUN npm install
 
 COPY . .
 
-RUN ng build
+RUN npm run install
 
 # Stage 2: Serve the Angular app with Nginx
 FROM nginx:alpine
