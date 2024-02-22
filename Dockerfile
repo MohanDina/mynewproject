@@ -14,7 +14,7 @@ RUN npm run build
 # Stage 2: Serve the Angular app with Nginx
 FROM nginx:alpine
 
-COPY --from=build /usr/src/my-angular-app/browser /usr/share/nginx/html
+COPY --from=builder /usr/src/my-angular-app/browser /usr/share/nginx/html
 
 EXPOSE 80
 
