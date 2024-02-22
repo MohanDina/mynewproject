@@ -1,5 +1,5 @@
 # Stage 1: Build the Angular app
-FROM node:18
+FROM node:18 as builder
 
 WORKDIR /app
 
@@ -14,11 +14,12 @@ RUN npm run build
 # Stage 2: Serve the Angular app with Nginx
 FROM nginx:alpine
 
-COPY --from=builder /app/dist/my-angular-app /usr/share/nginx/html/
+COPY --from=builder /app/dist /usr/share/nginx/html
 
 EXPOSE 80
 
-CMD ["nginx", "-g", "daemon off;"]
+CMD ["nginx", "-g", "daemon off;"]
+
 
 # FROM node:18
 # LABEL maintainer="Naresh <naresh03@gmail.com>"
