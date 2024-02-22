@@ -1,0 +1,63 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('SCM Checkout') {
+            steps {
+                script {
+                    // Checkout source code from SCM
+                    git branch: 'main', url: 'https://github.com/MohanDina/mynewproject'
+                }
+            }
+        }
+        stage('Build') {
+            steps {
+                script {
+                    // Install dependencies
+                    sh 'npm install'
+                }
+            }
+        }
+        stage('Docker Build Images') {
+            steps {
+                script {
+                    // Build Docker image
+                    sh 'docker build -t mohadina/myapp:v1 .'
+                    sh 'docker images'
+                }
+            }
+        }
+        stage('Docker Push') {
+            steps {
+                script {
+                    // Push Docker image to registry
+                    sh "docker login -u mohadina -p Mohan@1892"
+                    sh 'docker push mohadina/myapp:v1'
+                }
+            }
+        }
+        stage('Deploy on Kubernetes') {
+            steps {
+                script {
+                    // Deploy resources on Kubernetes
+                    withKubeCredentials(kubectlCredentials: [[credentialsId: 'kubernetes']]) {
+                        sh 'kubectl apply -f kube.yaml'
+                        sh 'kubectl apply -f service.yaml'
+                        sh 'sleep 15'
+                        sh 'kubectl get pods -o wide'
+                        sh 'kubectl get svc'
+                    }
+                }
+            }
+        }
+        stage('Cleanup Workspace') {
+            steps {
+                script {
+                    // Clean specific directories or files within the workspace
+                    sh 'rm -rf directory_to_clear/*' // Replace directory_to_clear with the directory you want to clear
+                    sh 'rm -f file_to_clear' // Replace file_to_clear with the file you want to clear
+                }
+            }
+        }
+    }
+}
