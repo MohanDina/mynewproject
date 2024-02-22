@@ -9,4 +9,4 @@ spec:
     - protocol: TCP
       port: 80
       targetPort: 80
-  type: LoadBalancer  # Make sure to have correct indentation here
+  type: NodePort  # Make sure to have correct indentation here
