@@ -4,18 +4,16 @@ FROM node:18 AS builder
 WORKDIR /usr/src/app
 
 COPY package*.json ./
+RUN npm install -g @angular/cli
 RUN npm install
 COPY . .
-RUN npm run build
+RUN ng build
 
 # Stage 2: Serve the Angular app with Nginx
 FROM nginx:alpine
 
-# Remove default nginx website
-RUN rm -rf /usr/share/nginx/html/*
-
 # Copy built Angular app from the builder stage to Nginx directory
-COPY --from=builder /usr/src/app/dist/my-angular-app/browser /usr/share/nginx/html
+COPY --from=build /usr/src/app/dist/my-angular-app/browser /usr/share/nginx/html
 
 EXPOSE 80
 
