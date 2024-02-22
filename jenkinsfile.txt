@@ -4,7 +4,7 @@ pipeline {
         stage ('SCM checkout') {
             steps {
                 script{
-                     git branch: 'main', url: 'https://github.com/mohan.git'
+                     git branch: 'main', url:'https://github.com/MohanDina/mynewproject'
                 }
             }
         }
@@ -18,7 +18,7 @@ pipeline {
         stage('Docker Build Images') {
             steps {
                 script {
-                    sh 'docker build -t mohan/app:1 .'
+                    sh 'docker build -t mohadina/app:1 .'
                     sh 'docker images'
                 }
             }
@@ -27,8 +27,8 @@ pipeline {
             steps {
                 script {
                     withCredentials([string(credentialsId: 'dockercred', variable: 'dockerpassword')]) {
-                        sh "docker login -u mohan -p ${dockerpassword}"
-                        sh 'docker push mohan/app:1'
+                        sh "docker login -u mohadina -p ${dockerpassword}"
+                        sh 'docker push mohadina/app:1'
                     }
                 }
             }
